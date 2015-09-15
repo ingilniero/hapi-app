@@ -34,6 +34,31 @@ server.route({
   }
 });
 
+server.route({
+  path: '/cards/new',
+  method: 'GET',
+  handler: function(request, reply) {
+    reply.file('templates/new.html');
+  }
+});
+
+server.route({
+  path: '/cards/new',
+  method: 'POST',
+  handler: function(request, reply) {
+    // Business logic need to create a new card
+    reply.redirect('/cards');
+  }
+});
+
+server.route({
+  path: '/cards',
+  method: 'GET',
+  handler: function(request, reply) {
+    reply.file('templates/cards.html');
+  }
+})
+
 server.start(function (err) {
   if (err) {
     throw err;
