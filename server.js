@@ -28,6 +28,14 @@ server.ext('onRequest', function(request, reply) {
   reply.continue();
 });
 
+server.ext('onPreResponse', function(request, reply) {
+  if(request.response.isBoom) {
+    return reply.view('error', request.response);
+  }
+
+  reply.continue();
+});
+
 server.route({
   path: '/',
   method: 'GET',
@@ -80,7 +88,7 @@ function newCardHandler(request, reply) {
     Joi.validate(request.payload, cardSchema, function(err, val) {
       if(err) {
         console.log(err);
-        return reply(err);
+        return reply(Boom.badRequest(err.details[0].message));
       }
 
       var card = {
