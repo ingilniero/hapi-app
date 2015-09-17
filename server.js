@@ -3,6 +3,8 @@ var Hapi = require('hapi'),
 
 var server = new Hapi.Server();
 
+var cards = {};
+
 server.connection({ port: 4000 });
 
 server.ext('onRequest', function(request, reply) {
@@ -52,12 +54,31 @@ function newCardHandler(request, reply) {
     reply.file('templates/new.html');
   } else {
     // Business logic need to create a new card
+    var card = {
+      name: request.payload.name,
+      recipient_email: request.payload.recipient_email,
+      sender_name: request.payload.sender_name,
+      sender_email: request.payload.sender_email,
+      card_image: request.payload.card_image
+    };
+
+    saveCard(card);
+
+    console.log(cards);
+
     reply.redirect('/cards');
   }
 }
 
 function cardsHandler(request, reply) {
   reply.file('templates/cards.html');
+}
+
+function saveCard(card) {
+  var id = uuid.v1();
+
+  card.id = id;
+  cards[id] = card;
 }
 
 server.start(function (err) {
