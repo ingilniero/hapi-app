@@ -43,9 +43,7 @@ server.route({
 server.route({
   path: '/cards',
   method: 'GET',
-  handler: function(request, reply) {
-    reply.file('templates/cards.html');
-  }
+  handler: cardsHandler
 });
 
 function newCardHandler(request, reply) {
@@ -55,6 +53,10 @@ function newCardHandler(request, reply) {
     // Business logic need to create a new card
     reply.redirect('/cards');
   }
+}
+
+function cardsHandler(request, reply) {
+  reply.file('templates/cards.html');
 }
 
 server.start(function (err) {
