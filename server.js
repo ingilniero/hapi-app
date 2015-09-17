@@ -1,5 +1,6 @@
 var Hapi = require('hapi'),
     uuid = require('uuid'),
+    Joi  = require('joi'),
     fs   = require('fs');
 
 var server = new Hapi.Server();
