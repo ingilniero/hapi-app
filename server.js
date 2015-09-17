@@ -13,6 +13,13 @@ server.register([require('inert'), require('vision')], function(err) {
 
 server.connection({ port: 4000 });
 
+server.views({
+  engines: {
+    html: require('handlebars')
+  },
+  path: './templates'
+});
+
 server.ext('onRequest', function(request, reply) {
   console.log('Request received: ' + request.path);
   reply.continue();
@@ -57,7 +64,7 @@ server.route({
 
 function newCardHandler(request, reply) {
   if(request.method === 'get') {
-    reply.file('templates/new.html');
+    reply.view('new');
   } else {
     // Business logic need to create a new card
     var card = {
