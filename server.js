@@ -85,7 +85,7 @@ function newCardHandler(request, reply) {
 }
 
 function cardsHandler(request, reply) {
-  reply.file('templates/cards.html');
+  reply.view('cards', { cards: cards });
 }
 
 function deleteCardHandler(request, reply) {
