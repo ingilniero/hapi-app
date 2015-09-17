@@ -90,6 +90,7 @@ function cardsHandler(request, reply) {
 
 function deleteCardHandler(request, reply) {
   delete cards[request.params.id];
+  reply();
 }
 
 function saveCard(card) {
