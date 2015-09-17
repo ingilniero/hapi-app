@@ -1,9 +1,10 @@
 var Hapi = require('hapi'),
-    uuid = require('uuid');
+    uuid = require('uuid'),
+    fs   = require('fs');
 
 var server = new Hapi.Server();
 
-var cards = {};
+var cards = loadCards();
 
 server.register([require('inert'), require('vision')], function(err) {
   if (err) {
@@ -96,6 +97,12 @@ function saveCard(card) {
 
   card.id = id;
   cards[id] = card;
+}
+
+function loadCards() {
+  var file = fs.readFileSync('./cards.json');
+
+  return JSON.parse(file.toString());
 }
 
 server.start(function (err) {
