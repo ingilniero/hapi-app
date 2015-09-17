@@ -2,13 +2,51 @@ var Hapi = require('hapi'),
     uuid = require('uuid'),
     Joi  = require('joi'),
     Boom = require('boom'),
+    Good = require('good'),
     fs   = require('fs');
 
 var server = new Hapi.Server();
 
 var cards = loadCards();
 
-server.register([require('inert'), require('vision')], function(err) {
+server.register([
+  { register: require('inert'), options: {} },
+  { register: require('vision'), options: {} },
+  {
+    register: require('good'),
+    options: {
+      opsInterval: 500,
+      reporters: [
+        {
+          reporter: require('good-file'),
+          events: { ops: '*' },
+          config: {
+            path: './logs',
+            prefix: 'hapi-process',
+            rotate: 'daily'
+          }
+        },
+        {
+          reporter: require('good-file'),
+          events: { response: '*' },
+          config: {
+            path: './logs',
+            prefix: 'hapi-requests',
+            rotate: 'daily'
+          }
+        },
+        {
+          reporter: require('good-file'),
+          events: { error: '*' },
+          config: {
+            path: './logs',
+            prefix: 'hapi-error',
+            rotate: 'daily'
+          }
+        },
+      ]
+    }
+  }], function(err) {
   if (err) {
     console.log('Failed to load plugin:', err);
   }
@@ -21,11 +59,6 @@ server.views({
     html: require('handlebars')
   },
   path: './templates'
-});
-
-server.ext('onRequest', function(request, reply) {
-  console.log('Request received: ' + request.path);
-  reply.continue();
 });
 
 server.ext('onPreResponse', function(request, reply) {
