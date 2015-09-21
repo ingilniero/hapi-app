@@ -8,6 +8,7 @@ CardStore.initialize();
 server.register([
   { register: require('inert'), options: {} },
   { register: require('vision'), options: {} },
+  { register: require('hapi-auth-cookie'), options: {} },
   {
     register: require('good'),
     options: {
