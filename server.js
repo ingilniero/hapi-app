@@ -5,6 +5,8 @@ var server = new Hapi.Server();
 
 CardStore.initialize();
 
+server.connection({ port: 4000 });
+
 server.register([
   { register: require('inert'), options: {} },
   { register: require('vision'), options: {} },
@@ -47,9 +49,16 @@ server.register([
   if (err) {
     console.log('Failed to load plugin:', err);
   }
+
+  server.auth.strategy('default', 'cookie', {
+    password: 'myPassword',
+    redirectTo: '/login',
+    isSecure: false
+  });
+
+  server.auth.default('default');
 });
 
-server.connection({ port: 4000 });
 
 server.views({
   engines: {
