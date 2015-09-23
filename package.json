@@ -9,6 +9,7 @@
   "author": "Gilberto Villa",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "boom": "^2.8.0",
     "good": "^6.3.0",
     "good-file": "^5.0.1",
