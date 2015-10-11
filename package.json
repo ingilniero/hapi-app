@@ -18,6 +18,7 @@
     "hapi-auth-cookie": "^3.1.0",
     "inert": "^3.0.1",
     "joi": "^6.7.1",
+    "mandrill-api": "^1.0.45",
     "uuid": "^2.0.1",
     "vision": "^3.0.0"
   }
